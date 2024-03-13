@@ -1,5 +1,4 @@
-const { getTodos } = require('../controllers/todoController')
-const Todo = require('../models/Todo')
+const { getTodos, deleteTodo, updateTodo, createTodo } = require('../controllers/todoController')
 const router = require('express').Router()
 
 router.route('/')
@@ -14,16 +13,32 @@ router.route('/')
   })
 
   .post(async (req, res) => {
+    try {
+      await createTodo(req.body)
+      const todos = await getTodos()
+      return res.json(todos)
+    } catch (error) {
+      return res.status(500).send(error)
+    }
+  })
+
+  .delete(async (req, res) => {
     console.log(req.body)
     try {
-      const _todo = new Todo({
-        title: req.body.title,
-        description: req.body.description,
-        status: req.body.status,
-        important: req.body.important
-      })
+      await deleteTodo(req.body.id)
+      const todos = await getTodos()
+      return res.json(todos)
+    } catch (error) {
+      return res.status(500).send(error)
+    }
+  })
 
-      _todo.save()
+  .put(async (req, res) => {
+    console.log(req.body)
+    try {
+      await updateTodo(req.body)
+      const todos = await getTodos()
+      return res.json(todos)
     } catch (error) {
       return res.status(500).send(error)
     }
