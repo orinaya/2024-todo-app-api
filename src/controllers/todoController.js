@@ -1,19 +1,22 @@
 const Todo = require('../models/Todo')
 
-async function getTodos () {
-  const todos = await Todo.find()
+async function getTodos (userId) {
+  const todos = await Todo.find({
+    user: { $eq: userId }
+  })
   return todos
 }
 
-async function createTodo (todo) {
-  if (todo) {
+async function createTodo (todo, userId) {
+  if (todo && userId) {
     const _todo = new Todo({
       title: todo.title,
       description: todo.description,
       status: todo.status,
-      important: todo.important
+      important: todo.important,
+      user: userId
     })
-    _todo.save()
+    await _todo.save()
   } else {
     throw new Error('Todo is missing')
   }
