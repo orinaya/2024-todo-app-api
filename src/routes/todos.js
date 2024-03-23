@@ -3,6 +3,7 @@ const router = require('express').Router()
 const withAuth = require('../middlewares/authMiddleware')
 router.route('/')
   .get(withAuth, async (req, res) => {
+    console.log(req.body)
     try {
       const todos = await getTodos(req.userId)
       return res.json(todos)

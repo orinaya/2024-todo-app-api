@@ -23,6 +23,10 @@ const todoSchema = new Schema({
   user: {
     type: Schema.Types.ObjectId,
     ref: 'User'
+  },
+  endDate: {
+    type: Date,
+    default: Date.now
   }
 }, { timestamps: true })
 

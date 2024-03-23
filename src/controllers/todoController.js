@@ -14,7 +14,8 @@ async function createTodo (todo, userId) {
       description: todo.description,
       status: todo.status,
       important: todo.important,
-      user: userId
+      user: userId,
+      endDate: todo.endDate
     })
     await _todo.save()
   } else {
